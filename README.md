@@ -4,7 +4,7 @@
 
 Saves/updates the given user's name and date of birth in the database.
 
-Request: PUT /hello/<username> { "dateOfBirth": "YYYY-MM-DD" }
+Request: PUT /hello/<username> `{ "dateOfBirth": "YYYY-MM-DD" }`
 Response: 204 No Content
 
 **Note:**
