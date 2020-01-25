@@ -10,11 +10,11 @@ Response: 204 No Content
 
 **Note:**
 
-<username> must contains only letters.
+- <username> must contains only letters.
 
-YYYY-MM-DD must be a date before the today date.
+- YYYY-MM-DD must be a date before the today date.
 
-Description: Returns hello birthday message for the given user
+**Description:** Returns hello birthday message for the given user
 
 Request: Get /hello/<username>
 
