@@ -1,8 +1,13 @@
-Design and code a simple "Hello World" application that exposes the following HTTP-based APIs:
-Description: Saves/updates the given user's name and date of birth in the database.
+##Design and code a simple "Hello World" application that exposes the following HTTP-based APIs:
+
+
+**Description:**
+Saves/updates the given user's name and date of birth in the database.
+
 Request: PUT /hello/<username> { "dateOfBirth": "YYYY-MM-DD" }
 Response: 204 No Content
-Note:
+
+**Note:**
 <username> must contains only letters.
 YYYY-MM-DD must be a date before the today date.
 
