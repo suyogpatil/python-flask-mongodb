@@ -8,11 +8,15 @@ at minimum working condition.
 
   - Docker,Minikube should be installed
 
+
+**Note:**
+ If you dont have minikube then can test it on katakoda env at https://www.katacoda.com/courses/kubernetes/launch-single-node-cluster
+
 ## Limitations
 
-  - Single app
+  - Single app (Can be scaled by simply increasing `replicas` in `kubernetes/k8s-minikube-app.yml`)
 
-  - Single standalone mongodb instance without authentication
+  - Single standalone mongodb instance without authentication (Need extra configuration for authentication and cluster mode.Out of scope for this testing)
 
 
 ## Procedure to test
@@ -43,7 +47,7 @@ APP_URL=$(minikube service birthday-app-svc -n birthday-app --url)
 
 # Sample data insert
 curl -i -X PUT -H "Content-Type:application/json" \
-   -d '{"dateOfBirth": "2019-11-02"}' \
+   -d '{"dateOfBirth": "2019-13-02"}' \
    ${APP_URL}/hello/userX
 
 # Check data

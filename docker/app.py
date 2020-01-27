@@ -4,15 +4,16 @@ from flask_pymongo import PyMongo
 import json
 from datetime import *
 app = Flask(__name__)
-#app.config["MONGO_URI"] = "mongodb://host.docker.internal:27017/birthdays"
 app.config["MONGO_URI"] =  os.environ.get('MONGO_URI')
 mongo = PyMongo(app)
 date_today = date.today()
 
+#default route
 @app.route("/")
 def main():
     return "hello users"
 
+# hello route
 @app.route('/hello/<username>', methods=['GET', 'PUT'])
 def user(username):
     if request.method == 'GET':
@@ -34,6 +35,11 @@ def user(username):
         data = request.get_json()
         if data.get('dateOfBirth') is  None:
             return jsonify({'ok': False, 'message': 'Bad request parameters!Please provide dateOfBirth key value'}), 400
+        try:
+          datetime.strptime(data.get('dateOfBirth'), '%Y-%m-%d')
+          birth_year, birth_month, birth_day = list(map(int,data.get('dateOfBirth').split('-')))
+        except ValueError:
+          return jsonify({'ok': False, 'message': 'Bad request parameters!Incorrect data format, should be YYYY-MM-DD'}), 400
         birth_year, birth_month, birth_day = list(map(int,data.get('dateOfBirth').split('-')))
         birth_date = date(birth_year, birth_month, birth_day)
         if birth_date >= date_today :
