@@ -1,19 +1,21 @@
+# Description
+
 This deployment is for local testing using `minikube` hence high availability is not desired so all the settings are kept
 at minimum working condition.
 
 
-# Requirements
+## Requirements
 
   - Docker,Minikube should be installed
 
-# Limitations
+## Limitations
 
   - Single app
 
   - Single standalone mongodb instance without authentication
 
 
-# Procedure to test
+## Procedure to test
 
 ```
 # Start minikube
@@ -26,7 +28,7 @@ eval $(minikube docker-env)
 kubectl apply -f kubernetes/k8s-minikube-mongodb.yml
 
 # check mongodb is running
-kubectl get deploy -n birthday-mongodb
+kubectl get all -n birthday-mongodb
 
 # Build image
 docker build -t birthday-app ../docker/
@@ -35,7 +37,7 @@ docker build -t birthday-app ../docker/
 kubectl apply -f kubernetes/k8s-minikube-app.yml
 
 # Check that app is running
-kubectl get deploy -n birthday-app
+kubectl get all -n birthday-app
 
 APP_URL=$(minikube service birthday-app-svc -n birthday-app --url)
 
