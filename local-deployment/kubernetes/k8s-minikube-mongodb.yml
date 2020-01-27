@@ -50,7 +50,7 @@ spec:
     spec:
       containers:
       - name: mongodb-standalone
-        image: mongo:4.0.8
+        image: mongo
         env:
           - name: MONGO_INITDB_DATABASE
             value: birthdays

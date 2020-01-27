@@ -27,8 +27,8 @@ A. If username's birthday is in N days:
 ```
 { "message": "Hello, <username>! Your birthday is in N day(s)"}
 ```
+
 B. If username's birthday is today:
 ```
 { "message": "Hello, <username>! Happy birthday!" }
 ```
-Note: Use storage/database of your choice.
