@@ -18,6 +18,8 @@ at minimum working condition.
 
   - Single standalone mongodb instance without authentication (Need extra configuration for authentication and cluster mode.Out of scope for this testing)
 
+  - Persistent storage claims are fulfilled by Minikube.
+
 
 ## Procedure to deploy
 

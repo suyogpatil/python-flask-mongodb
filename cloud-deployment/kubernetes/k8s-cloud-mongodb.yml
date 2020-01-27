@@ -4,17 +4,20 @@ metadata:
   name: birthday-mongodb
 
 ---
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolume
 metadata:
-  name: myclaim
-  namespace: birthday-mongodb
+  name: pv-volume
+  labels:
+    type: local
 spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
   accessModes:
     - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
+  hostPath:
+    path: "/mnt/data"
 
 ---
 apiVersion: v1
@@ -62,6 +65,7 @@ spec:
         name: myclaim
       spec:
         accessModes: [ "ReadWriteOnce" ]
+        storageClassName: manual
         resources:
           requests:
             storage: 1Gi

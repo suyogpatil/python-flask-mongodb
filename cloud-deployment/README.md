@@ -21,6 +21,8 @@ We have not added replicaset based high availability mongodb settings as its out
 
   - Standalone mongodb instance without authentication (Need extra configuration for authentication and cluster mode.Out of scope for this testing)
 
+  - for persistent storage of mongodb we have used hostpath but we can use advanced storage solutions(https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/)
+
 
 ## Procedure to deploy
 
@@ -35,8 +37,14 @@ kubectl apply -f kubernetes/k8s-cloud-mongodb.yml
 # check mongodb is running
 kubectl get all -n birthday-mongodb
 
-# Build image
-docker build -t birthday-app ../docker/
+
+# For cloud deployment I have already pushed image to suyogpatil36/birthday-app and updated `kubernetes/k8s-cloud-app.yml` so you can skip docker build and push image part
+    # Build image
+    docker build -t birthday-app ../docker/
+    # Push image to public docker repo
+    docker login --username={yourhubusername} --email={youremail@company.com}
+    docker tag birthday-app {yourhubusername}/birthday-app
+    docker push {yourhubusername}/birthday-app
 
 # Run birthday-app
 kubectl apply -f kubernetes/k8s-cloud-app.yml
@@ -44,12 +52,12 @@ kubectl apply -f kubernetes/k8s-cloud-app.yml
 # Check that birthday-app is running
 kubectl get all -n birthday-app
 
-APP_URL=$(kubectl get service birthday-app-svc -ojsonpath='{.spec.externalIPs[]}')
+APP_URL=$(kubectl get service birthday-app-svc -n birthday-app -ojsonpath='{.status.loadBalancer.ingress[].ip}')
 
 # Sample data insert
 curl -i -X PUT -H "Content-Type:application/json" \
    -d '{"dateOfBirth": "2019-01-02"}' \
-   ${APP_URL}/hello/userX
+   ${APP_URL}:8080/hello/userX
 
 # Check data
 curl ${APP_URL}/hello/userX

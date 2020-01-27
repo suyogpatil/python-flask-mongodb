@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: birthday-app
-        image: birthday-app:latest
+        image: suyogpatil36/birthday-app:latest
         readinessProbe:
           httpGet:
             path: /
