@@ -42,7 +42,7 @@ spec:
     matchLabels:
       role: mongo
   serviceName: "mongo"
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
