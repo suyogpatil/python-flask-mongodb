@@ -38,7 +38,7 @@ kubectl apply -f kubernetes/k8s-cloud-mongodb.yml
 kubectl get all -n birthday-mongodb
 
 
-# For cloud deployment I have already pushed image to suyogpatil36/birthday-app and updated `kubernetes/k8s-cloud-app.yml` so you can skip docker build and push image part
+# For cloud deployment I have already pushed image to `suyogpatil36/birthday-app` and updated `kubernetes/k8s-cloud-app.yml` so you can skip below docker build and push image part.If you want to use your own docker repo image then follow below steps
     # Build image
     docker build -t birthday-app ../docker/
     # Push image to public docker repo
@@ -56,9 +56,9 @@ APP_URL=$(kubectl get service birthday-app-svc -n birthday-app -ojsonpath='{.sta
 
 # Sample data insert
 curl -i -X PUT -H "Content-Type:application/json" \
-   -d '{"dateOfBirth": "2019-01-02"}' \
+   -d '{"dateOfBirth": "2018-01-02"}' \
    ${APP_URL}:8080/hello/userX
 
 # Check data
-curl ${APP_URL}/hello/userX
+curl ${APP_URL}:8080/hello/userX
 ```

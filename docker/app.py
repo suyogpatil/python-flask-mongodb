@@ -8,18 +8,20 @@ app.config["MONGO_URI"] =  os.environ.get('MONGO_URI')
 mongo = PyMongo(app)
 date_today = date.today()
 
-#default route
+#default app route
 @app.route("/")
 def main():
     return "hello users"
 
-# hello route
+# /hello/<username> route
 @app.route('/hello/<username>', methods=['GET', 'PUT'])
 def user(username):
     if request.method == 'GET':
         data = mongo.db.users.find_one_or_404({"_id": username})
         birth_year, birth_month, birth_day = list(map(int,data.get('dateOfBirth').split('-')))
         birth_date = date(birth_year, birth_month, birth_day)
+
+        # display message depending on birth date
         if date_today.month == birth_date.month and date_today.day == birth_date.day:
             return { "message": f"Hello, {username}! Happy birthday!" }, 200
         else:
@@ -30,9 +32,12 @@ def user(username):
             return { "message": f"Hello, {username}!Your birthday is in {days} day(s)"}, 200
 
     if request.method == 'PUT':
+        #username validation
         if not username.isalpha():
             return jsonify({'ok': False, 'message': 'Bad request parameters!Please provide username with only alphabetical letters'}), 400
         data = request.get_json()
+
+        #dateOfBirth validation
         if data.get('dateOfBirth') is  None:
             return jsonify({'ok': False, 'message': 'Bad request parameters!Please provide dateOfBirth key value'}), 400
         try:
@@ -48,6 +53,8 @@ def user(username):
         dateOfBirth = data.get('dateOfBirth')
         merged_dict = data.copy()
         merged_dict.update({"_id": username})
+
+        # Mongo insert/update user data
         if user_data is None:
             mongo.db.users.insert_one(merged_dict)
             return jsonify({'ok': True, 'message': 'User created successfully!'}), 204
