@@ -8,6 +8,8 @@ Kubernetes will take care of update using rolling strategy(https://kubernetes.io
 **Note on mongodb:**
 We have not added replicaset based high availability mongodb settings as its out of scope for this solution and separate topic of its own.But I've attached ideal application design diagram in cloud environment where high availability mongodb cluster is used.
 
+**System diagram**
+![alt text](https://raw.githubusercontent.com/suyogpatil/python-flask-mongodb/master/cloud-deployment/python_flask.png)
 
 ## Requirements
 
