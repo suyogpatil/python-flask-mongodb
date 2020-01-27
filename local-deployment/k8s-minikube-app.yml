@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: birthday-app
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: birthday-app-deployment
+  namespace: birthday-app
+spec:
+  selector:
+    matchLabels:
+      app: birthday-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: birthday-app
+    spec:
+      containers:
+      - name: birthday-app
+        image: birthday-app:latest
+        imagePullPolicy: Never
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: birthday-app-svc
+  namespace: birthday-app
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: birthday-app

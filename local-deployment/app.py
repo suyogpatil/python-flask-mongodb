@@ -4,7 +4,8 @@ from flask_pymongo import PyMongo
 import json
 from datetime import *
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://host.docker.internal:27017/birthdays"
+#app.config["MONGO_URI"] = "mongodb://host.docker.internal:27017/birthdays"
+app.config["MONGO_URI"] =  os.environ.get('MONGO_URI')
 mongo = PyMongo(app)
 date_today = date.today()
 
@@ -31,17 +32,16 @@ def user(username):
         if not username.isalpha():
             return jsonify({'ok': False, 'message': 'Bad request parameters!Please provide username with only alphabetical letters'}), 400
         data = request.get_json()
-        if data.get('dateOfBirth', None) is  None:
+        if data.get('dateOfBirth') is  None:
             return jsonify({'ok': False, 'message': 'Bad request parameters!Please provide dateOfBirth key value'}), 400
         birth_year, birth_month, birth_day = list(map(int,data.get('dateOfBirth').split('-')))
         birth_date = date(birth_year, birth_month, birth_day)
         if birth_date >= date_today :
             return jsonify({'ok': False, 'message': 'Bad request parameters!Please provide dateOfBirth key value before the today date'}), 400
         user_data = mongo.db.users.find_one({"_id": username})
-        dateOfBirth = data.get('dateOfBirth', None)
-        dictB = {"_id": username}
+        dateOfBirth = data.get('dateOfBirth')
         merged_dict = data.copy()
-        merged_dict.update(dictB)
+        merged_dict.update({"_id": username})
         if user_data is None:
             mongo.db.users.insert_one(merged_dict)
             return jsonify({'ok': True, 'message': 'User created successfully!'}), 204
