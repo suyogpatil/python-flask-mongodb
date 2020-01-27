@@ -13,7 +13,7 @@ spec:
   selector:
     matchLabels:
       app: birthday-app
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
@@ -22,7 +22,6 @@ spec:
       containers:
       - name: birthday-app
         image: birthday-app:latest
-        imagePullPolicy: Never
         readinessProbe:
           httpGet:
             path: /
@@ -39,7 +38,7 @@ metadata:
   name: birthday-app-svc
   namespace: birthday-app
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - name: http
       port: 8080

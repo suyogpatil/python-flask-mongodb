@@ -19,7 +19,7 @@ at minimum working condition.
   - Single standalone mongodb instance without authentication (Need extra configuration for authentication and cluster mode.Out of scope for this testing)
 
 
-## Procedure to test
+## Procedure to deploy
 
 ```
 # Start minikube
@@ -37,17 +37,17 @@ kubectl get all -n birthday-mongodb
 # Build image
 docker build -t birthday-app ../docker/
 
-# Run in minikube
+# Run birthday-app
 kubectl apply -f kubernetes/k8s-minikube-app.yml
 
-# Check that app is running
+# Check that birthday-app is running
 kubectl get all -n birthday-app
 
 APP_URL=$(minikube service birthday-app-svc -n birthday-app --url)
 
 # Sample data insert
 curl -i -X PUT -H "Content-Type:application/json" \
-   -d '{"dateOfBirth": "2019-13-02"}' \
+   -d '{"dateOfBirth": "2019-01-02"}' \
    ${APP_URL}/hello/userX
 
 # Check data
